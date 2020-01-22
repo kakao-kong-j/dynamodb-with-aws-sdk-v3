@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && node dist/index.js",
-    "build": "tsc && docker build -t my_node ."
+    "start": "npm run build && docker-compose up --force-recreate",
+    "build": "npm run clear && tsc && docker-compose build --no-cache",
+    "clear": "rm -rf dist"
   },
   "keywords": [],
   "author": "",

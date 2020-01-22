@@ -1,16 +1,20 @@
-version: '3'
+version: "3"
 services:
-  dynamo:
-    restart: always
-    image: amazon/dynamodb-local
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    container_name: dynamodb
     ports:
       - "8000:8000"
     volumes:
       - db_data:/home/dynamodblocal
-    working_dir: /home/dynamodblocal
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ."
-  api:
-    image: my_node:latest
     restart: always
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]
+  api:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: always
+    links:
+      - "dynamodb:dynamodb"
 volumes:
-    db_data: {}
+  db_data: {}

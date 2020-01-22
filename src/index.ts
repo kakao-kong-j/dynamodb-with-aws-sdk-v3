@@ -3,18 +3,11 @@ import {
   ListTablesCommand,
 } from "@aws-sdk/client-dynamodb-v2-node";
 
-export const delay = (ms: number) =>
-  new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-
 async function example() {
   console.log("start");
-  await delay(10000).then(() => console.log("end wait!"));
-  console.log("end wait");
   const client = new DynamoDBClient({
-    endpoint: "amazon/dynamodb-local://dynamo:8000",
-    region: "us-east-2",
+    endpoint: "http://localhost:8000",
+    region: "us-east-1",
   });
   const command = new ListTablesCommand({});
   try {
@@ -27,6 +20,7 @@ async function example() {
     console.log(4);
     console.error(err);
     console.log(5);
+    throw new Error("db is not exist");
   }
   console.log(6);
 }
