@@ -14,7 +14,5 @@ services:
       context: .
       dockerfile: ./Dockerfile
     restart: always
-    links:
-      - "dynamodb:dynamodb"
 volumes:
   db_data: {}
